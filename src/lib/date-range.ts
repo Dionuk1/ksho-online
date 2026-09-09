@@ -3,18 +3,20 @@ export type RangePreset =
   | "today"
   | "week"
   | "month"
+  | "lastMonth"
   | "last3"
   | "year"
   | "custom";
 
 export const RANGE_LABELS: Record<RangePreset, string> = {
-  all: "All time",
-  today: "Today",
-  week: "This Week",
-  month: "This Month",
-  last3: "Last 3 Months",
-  year: "This Year",
-  custom: "Custom Range",
+  all: "Të gjitha",
+  today: "Sot",
+  week: "Këtë javë",
+  month: "Këtë muaj",
+  lastMonth: "Muajin e kaluar",
+  last3: "3 muajt e fundit",
+  year: "Këtë vit",
+  custom: "Periudhë e zgjedhur",
 };
 
 function iso(d: Date) {
@@ -36,6 +38,11 @@ export function presetRange(preset: RangePreset): { from?: string; to?: string }
     }
     case "month":
       return { from: iso(new Date(now.getFullYear(), now.getMonth(), 1)), to: today };
+    case "lastMonth":
+      return {
+        from: iso(new Date(now.getFullYear(), now.getMonth() - 1, 1)),
+        to: iso(new Date(now.getFullYear(), now.getMonth(), 0)),
+      };
     case "last3":
       return { from: iso(new Date(now.getFullYear(), now.getMonth() - 2, 1)), to: today };
     case "year":
@@ -53,4 +60,13 @@ export function inRange(date: string, from?: string, to?: string) {
 
 export function monthKey(date: string) {
   return date.slice(0, 7);
+}
+
+/** yyyy-mm for the current month and the previous one (local time). */
+export function currentAndPreviousMonthKeys() {
+  const now = new Date();
+  return {
+    current: iso(new Date(now.getFullYear(), now.getMonth(), 1)).slice(0, 7),
+    previous: iso(new Date(now.getFullYear(), now.getMonth() - 1, 1)).slice(0, 7),
+  };
 }

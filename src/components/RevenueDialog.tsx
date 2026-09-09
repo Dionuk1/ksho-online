@@ -82,7 +82,7 @@ export function RevenueDialog({
       ["shippingCost", shippingCost],
     ] as const) {
       const n = num(value);
-      if (Number.isNaN(n) || n < 0) next[key] = "Duhet numër ≥ 0.";
+      if (Number.isNaN(n) || n < 0) next[key] = "Shkruani një numër të vlefshëm (≥ 0).";
     }
     if (!date) next.date = "Data është e detyrueshme.";
     setErrors(next);
@@ -166,7 +166,7 @@ export function RevenueDialog({
 
           <div className="grid gap-4 sm:grid-cols-3">
             <div className="grid gap-2">
-              <Label htmlFor="rev-amount">Xhiro (€)</Label>
+              <Label htmlFor="rev-amount">Të ardhurat (€)</Label>
               <Input
                 id="rev-amount"
                 type="number"
@@ -178,7 +178,7 @@ export function RevenueDialog({
               {errors.revenue ? <p className="text-xs text-destructive">{errors.revenue}</p> : null}
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="rev-pc">Kosto produkti (€)</Label>
+              <Label htmlFor="rev-pc">Kostoja e produktit (€)</Label>
               <Input
                 id="rev-pc"
                 type="number"
@@ -187,12 +187,12 @@ export function RevenueDialog({
                 value={productCost}
                 onChange={(e) => setProductCost(e.target.value)}
               />
-              {errors.productCost ? (
-                <p className="text-xs text-destructive">{errors.productCost}</p>
+              {errors["productCost"] ? (
+                <p className="text-xs text-destructive">{errors["productCost"]}</p>
               ) : null}
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="rev-sc">Kosto poste (€)</Label>
+              <Label htmlFor="rev-sc">Kostoja e transportit (€)</Label>
               <Input
                 id="rev-sc"
                 type="number"
@@ -201,8 +201,8 @@ export function RevenueDialog({
                 value={shippingCost}
                 onChange={(e) => setShippingCost(e.target.value)}
               />
-              {errors.shippingCost ? (
-                <p className="text-xs text-destructive">{errors.shippingCost}</p>
+              {errors["shippingCost"] ? (
+                <p className="text-xs text-destructive">{errors["shippingCost"]}</p>
               ) : null}
             </div>
           </div>
@@ -211,7 +211,7 @@ export function RevenueDialog({
             <div>
               <p className="text-sm font-medium">E arkëtuar</p>
               <p className="text-xs text-muted-foreground">
-                Fikeni nëse pagesa është ende në pritje.
+                Çaktivizojeni nëse pagesa është ende në pritje të arkëtimit.
               </p>
             </div>
             <Switch checked={collected} onCheckedChange={setCollected} />
@@ -237,7 +237,7 @@ export function RevenueDialog({
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Anulo
           </Button>
-          <Button onClick={submit}>{entry ? "Ruaj ndryshimet" : "Shto"}</Button>
+          <Button onClick={submit}>{entry ? "Ruaj ndryshimet" : "Shto të ardhura"}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
